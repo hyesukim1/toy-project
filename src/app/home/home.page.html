@@ -17,7 +17,6 @@
   <div #pleaseConnect id="please-connect" *ngIf="doSpinner">
     <p>Please wait ...</p>
   </div>
-
   <div class="video-container">
     <video *ngIf="showVideo"
       class="video-area"
@@ -33,7 +32,7 @@
     *ngIf="videoBoundingRect && svgEnabled"
     class="svg-area"
     #svgRef
-    >
+  >
     <defs>
       <filter x="0" y="0" width="1" height="1" id="solid">
         <feFlood flood-color="black"/>

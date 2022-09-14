@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+// ElementRef, Renderer2, ViewChild는 home.page.html 엮어줌
+// OnInit은 export 할때 생성해주는 인터페이스
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -6,9 +8,10 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage implements OnInit{
-  @ViewChild('video', { static: false}) videoElement: ElementRef;
-  @ViewChild('canvas', { static:false}) canvas: ElementRef;
+  @ViewChild('video', { static: false }) videoElement: ElementRef;
+  @ViewChild('canvas', { static:false }) canvas: ElementRef;
 
   videoBoundingRect;
   videoWidth: number = 0;
@@ -31,10 +34,9 @@ export class HomePage implements OnInit{
   constructor(private renderer: Renderer2,
     private http: HttpClient) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
       this.startCamera();
   }
-
   async startCamera() {
     if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
         navigator.mediaDevices.getUserMedia(this.constraints).then(this.attachVideo.bind(this)).catch(this.handleError);
@@ -44,7 +46,6 @@ export class HomePage implements OnInit{
         alert('Sorry, camera not available.');
     }
   }
-  
   attachVideo(stream) {
     this.renderer.setProperty(this.videoElement.nativeElement, 'srcObject', stream);
     this.renderer.listen(this.videoElement.nativeElement, 'play', (event) => {
@@ -107,4 +108,3 @@ export class HomePage implements OnInit{
       });
   }
 }
-

@@ -12,27 +12,32 @@ nmsthres=0.1
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/dnn/yolo', methods=['POST'])
+@app.route('/dnn/yolo', methods=['GET'])
 def main():
-    model = request.form['model']
-    if model == 'apple':    
-        labelsPath="C:/Users/kimsu/wed-dnn/flask/model/classes.names"   
-        configpath="C:/Users/kimsu/wed-dnn/flask/model/apple-train-yolo.cfg" 
-        weightspath="C:/Users/kimsu/wed-dnn/flask/model/apple-train-yolo_final.weights"  
-    else:
-        labelsPath="C:/Users/kimsu/wed-dnn/flask/model/coco.names"   
-        configpath="C:/Users/kimsu/wed-dnn/flask/model/yolov3.cfg" 
-        weightspath="C:/Users/kimsu/wed-dnn/flask/model/yolov3.weights" 
-    print("[INFO] loading ", model.upper(), " models...")
+    labelsPath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/coco.names"   
+    configpath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/yolov3.cfg"; 
+    weightspath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/yolov3.weights"; 
+    print(" yolo loading..")
+    # model = request.form['model']
+    # if model == 'apple':    
+    #     labelsPath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/classes.names"   
+    #     configpath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/apple-train-yolo.cfg" 
+    #     weightspath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/apple-train-yolo_final.weights"  
+    # else:
+    #     labelsPath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/coco.names"   
+    #     configpath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/yolov3.cfg" 
+    #     weightspath="C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/model/yolov3.weights" 
+    # print("[INFO] loading ", model.upper(), " models...")
+    
     LABELS = open(labelsPath).read().strip().split("\n")
-    net = cv2.dnn.readNet(configpath, weightspath) 
+    net = cv2.dnn.readNetFromDarknet(configpath, weightspath) 
 
-    file = request.form['image']
-    starter = file.find(',')
-    image_data = file[starter+1:]
-    image_data = bytes(image_data, encoding="ascii")
-    img = Image.open(BytesIO(base64.b64decode(image_data))) 
-    #img = cv2.imread('./dog.jpg')
+    # file = request.form['image']
+    # starter = file.find(',')
+    # image_data = file[starter+1:]
+    # image_data = bytes(image_data, encoding="ascii")
+    # img = Image.open(BytesIO(base64.b64decode(image_data))) 
+    img = cv2.imread('C:/Users/kimsu/OneDrive/문서/GitHub/toy-project/flask/dog.jpg')
     npimg=np.array(img)
     image=npimg.copy()
     image=cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
